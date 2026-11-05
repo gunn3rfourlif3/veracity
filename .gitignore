@@ -38,4 +38,14 @@ yarn-error.*
 
 # generated native folders
 /ios
-/android
+
+# android/ IS tracked: it carries the Maven-mirror and memory fixes documented in
+# CLAUDE.md, which `expo prebuild` would otherwise regenerate away. Build output
+# and local machine config stay ignored.
+/android/.gradle/
+/android/build/
+/android/app/build/
+/android/.kotlin/
+/android/local.properties
+/android/app/*.keystore
+

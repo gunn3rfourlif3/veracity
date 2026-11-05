@@ -1,25 +1,43 @@
 {
   "expo": {
-    "name": "veracity",
+    "name": "Veracity",
     "slug": "veracity",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "ios": {
-      "supportsTablet": true
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FAFAF8"
     },
     "android": {
+      "package": "io.zaaka.veracity",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "monochromeImage": "./assets/android-icon-monochrome.png",
+        "backgroundColor": "#FAFAF8"
       },
-      "predictiveBackGestureEnabled": false
+      "permissions": ["android.permission.CAMERA"],
+      "intentFilters": [
+        {
+          "action": "SEND",
+          "data": [{ "mimeType": "image/*" }],
+          "category": ["DEFAULT"]
+        }
+      ]
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Veracity reads the screenshot you pick, then discards it.",
+          "cameraPermission": "Veracity uses the camera to capture a screen in front of you."
+        }
+      ]
+    ]
   }
 }

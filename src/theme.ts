@@ -1,0 +1,30 @@
+// Veracity design tokens — Direction A (light, editorial)
+export const c = {
+  bg: '#FAFAF8',
+  surface: '#FFFFFF',
+  ink: '#14181D',
+  inkInv: '#FAFAF8',
+  muted: '#5A6472',
+  mutedDeep: '#4A525E',
+  border: '#E2E0DA',
+  borderStrong: '#D8D5CD',
+  borderDash: '#CFCCC3',
+  hairline: '#EDEBE5',
+  accentBg: '#EEF2F7',
+  accent: '#3D5A80',
+  ok: '#3F7F5C',
+  caution: '#8A6D1F',
+  warm: '#F4F1E9',
+  dark: '#14181D',
+  darkRule: '#2A2F38',
+  darkMuted: '#9AA4B2',
+  darkFaint: '#C9D1DB',
+  amber: '#E8C87A',
+  okBg: '#E3EFE8',
+  okInk: '#2F6B4D',
+  cautionBg: '#F6EBD6',
+  alertBg: '#F6E0DC',
+  alertInk: '#93362A',
+} as const;
+
+export const serif = 'serif';

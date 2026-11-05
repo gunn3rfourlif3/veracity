@@ -1,0 +1,39 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+// NOTE: the GCS mirror of Maven Central is listed ahead of mavenCentral() because the
+// build environment's egress proxy rate-limits repo.maven.apache.org (HTTP 429) and
+// Gradle treats 429 as fatal instead of trying the next repository. Harmless elsewhere.
+ext.centralMirror = 'https://maven-central.storage-download.googleapis.com/maven2'
+
+buildscript {
+  repositories {
+    google()
+    maven { url 'https://maven-central.storage-download.googleapis.com/maven2' }
+    mavenCentral()
+  }
+  dependencies {
+    classpath('com.android.tools.build:gradle')
+    classpath('com.facebook.react:react-native-gradle-plugin')
+    def kotlinVersion = findProperty('android.kotlinVersion')
+    classpath(kotlinVersion ? "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion" : 'org.jetbrains.kotlin:kotlin-gradle-plugin')
+  }
+}
+
+allprojects {
+  repositories {
+    google()
+    maven { url 'https://maven-central.storage-download.googleapis.com/maven2' }
+    mavenCentral()
+    maven { url 'https://www.jitpack.io' }
+  }
+  buildscript {
+    repositories {
+      google()
+      maven { url 'https://maven-central.storage-download.googleapis.com/maven2' }
+      mavenCentral()
+    }
+  }
+}
+
+apply plugin: "expo-root-project"
+apply plugin: "com.facebook.react.rootproject"
