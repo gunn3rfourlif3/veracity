@@ -49,3 +49,7 @@ yarn-error.*
 /android/local.properties
 /android/app/*.keystore
 
+
+# local scratch, not part of the project
+/_to_delete_android_studio_project/
+/Claude outputs/
