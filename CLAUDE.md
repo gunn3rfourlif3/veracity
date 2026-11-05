@@ -153,3 +153,48 @@ cd android
 
 Do not let Android Studio upgrade AGP or the Gradle wrapper — the pinned versions
 are what work. Build from the command line.
+
+---
+
+## 7. Windows build gotchas (hit 5 Nov 2026, all resolved)
+
+**Do not reinstall `react-native-safe-area-context`.** It ships a Fabric component
+spec, and ninja composes an object path that embeds the full source path inside the
+output path — about **357 characters**, against Windows' 260-char `MAX_PATH`:
+
+```
+ninja: error: Stat(...react_codegen_safeareacontext.dir/C_/xampp/htdocs/.../
+ComponentDescriptors.cpp.o): Filename longer than 260 characters
+```
+
+Moving the project to a shorter root does **not** fix it: the path appears twice, so
+even `C:\v` only gets to ~293. Enabling `LongPathsEnabled` did not help either,
+because CMake 3.22's bundled ninja is not long-path aware. The fix was removing the
+package — it was only providing a top inset, now derived from
+`StatusBar.currentHeight` in `App.tsx`. That deleted the only Fabric codegen target
+in the project; the Expo modules use the Expo Modules API and generate none.
+
+If a future dependency reintroduces C++ codegen with a long name, the same failure
+returns. Options then, cheapest first: drop the dependency; move the project to a
+short root *and* enable long paths; or set `CMAKE_OBJECT_PATH_MAX`.
+
+`package-lock.json` may still reference the removed package. Autolinking reads
+`package.json`, so it stays inert — but run `npm install` and commit the lock file
+to be properly rid of it.
+
+**`local.properties` is gitignored** and the build fails without it
+("SDK location not found"). Recreate per machine:
+
+```
+sdk.dir=C\:\\Users\\<you>\\AppData\\Local\\Android\\Sdk
+```
+
+**`INSTALL_FAILED_UPDATE_INCOMPATIBLE`** on install means a copy of
+`io.zaaka.veracity` signed with a *different* keystore is already on the device.
+Android treats the signing key as the app's identity and refuses cross-key updates.
+`adb uninstall io.zaaka.veracity`, then install. Use one keystore per machine and
+keep it — this is the same rule that makes a lost Play upload key unrecoverable.
+
+**Do not let Android Studio open this project to build it.** It will offer to
+upgrade AGP and the Gradle wrapper; accepting undoes the pinned versions that work.
+Use it as an emulator host only, and build from the command line.
